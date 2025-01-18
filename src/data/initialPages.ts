@@ -1,0 +1,60 @@
+import { FormPage } from '../types';
+
+export const initialPages: FormPage[] = [
+  {
+    id: 'profile-headline',
+    title: 'Profile headline',
+    description: 'Create a compelling headline that represents you',
+    isCompleted: false,
+    category: 'profile',
+    matchImpact: 15,
+  },
+  {
+    id: 'environment',
+    title: 'Environment',
+    description: 'Your ideal work environment and culture',
+    isCompleted: false,
+    category: 'preferences',
+    matchImpact: 20,
+  },
+  {
+    id: 'location',
+    title: 'Location',
+    description: 'Where you want to work and live',
+    isCompleted: false,
+    category: 'preferences',
+    matchImpact: 15,
+  },
+  {
+    id: 'considerations',
+    title: 'Considerations',
+    description: 'Important factors in your career decisions',
+    isCompleted: false,
+    category: 'preferences',
+    matchImpact: 10,
+  },
+  {
+    id: 'personal-interests',
+    title: 'Personal interests',
+    description: 'What drives and motivates you',
+    isCompleted: false,
+    category: 'profile',
+    matchImpact: 10,
+  },
+  {
+    id: 'life-goals',
+    title: 'Life goals',
+    description: 'Your long-term aspirations and dreams',
+    isCompleted: false,
+    category: 'profile',
+    matchImpact: 15,
+  },
+  {
+    id: 'resume',
+    title: 'Resume',
+    description: 'Your professional background and skills',
+    isCompleted: false,
+    category: 'experience',
+    matchImpact: 15,
+  },
+];

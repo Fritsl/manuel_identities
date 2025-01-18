@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Backgrounds */
+  --background: 0 0% 100%;        /* Pure white #FFFFFF */
+  --card: 0 0% 100%;             /* Card background #FFFFFF */
+  --popover: 0 0% 100%;          /* Popover background #FFFFFF */
+  
+  /* Text Colors */
+  --foreground: 0 0% 0%;         /* Pure black text #000000 */
+  --card-foreground: 0 0% 0%;    /* Card text #000000 */
+  --popover-foreground: 0 0% 0%; /* Popover text #000000 */
+  
+  /* Brand Colors */
+  --primary: 15 100% 60%;        /* Coral #FF4D1C */
+  --primary-foreground: 0 0% 100%; /* White text on primary #FFFFFF */
+  --secondary: 199 91% 48%;      /* Ocean Blue #0EA5E9 */
+  --secondary-foreground: 0 0% 100%; /* White text on secondary #FFFFFF */
+  
+  /* UI Colors */
+  --muted: 0 0% 45%;            /* Muted text #737373 */
+  --muted-foreground: 0 0% 45%; /* Muted foreground #737373 */
+  --accent: 15 100% 60%;        /* Coral #FF4D1C */
+  --accent-foreground: 0 0% 100%; /* White text on accent #FFFFFF */
+  
+  /* System Colors */
+  --destructive: 0 84.2% 60.2%;  /* Red for destructive actions #ED4B4B */
+  --destructive-foreground: 210 40% 98%; /* Light text on destructive #F8FAFC */
+  --border: 15 100% 60%;        /* Coral border #FF4D1C */
+  --input: 212 23% 76%;         /* Input field color #B8C4CF */
+  --ring: 15 100% 60%;          /* Focus ring Coral #FF4D1C */
+  
+  /* Measurements */
+  --radius: 0.75rem;            /* Border radius 12px */
+}
+
+/* Base styles */
+@layer base {
+  * {
+    @apply transition-[background-color,border-color,color,transform,box-shadow] duration-200 ease-in-out;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90;
+  }
+  
+  .input {
+    @apply bg-input border-input;
+  }
+
+  .magic-wand {
+    animation: wandRotate 2s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes wandRotate {
+    0%, 100% {
+      transform: rotate(-5deg);
+    }
+    50% {
+      transform: rotate(5deg);
+    }
+  }
+}
