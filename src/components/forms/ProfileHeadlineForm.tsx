@@ -31,20 +31,20 @@ export function ProfileHeadlineForm({ value, onChange, onComplete, isCompleted }
       if (!user || initialFetchDone) return;
 
       try {
-        // First, check if user has any profiles
-        const { data: profilesData, error: profilesError } = await supabase
-          .from('profiles')
+        // First, check if user has any identities
+        const { data: identitiesData, error: identitiesError } = await supabase
+          .from('identities')
           .select('id, is_active')
           .eq('user_id', user.id);
 
-        if (profilesError) throw profilesError;
+        if (identitiesError) throw identitiesError;
 
         let currentProfileId: string;
 
-        if (!profilesData || profilesData.length === 0) {
-          // Create first profile if none exist
+        if (!identitiesData || identitiesData.length === 0) {
+          // Create first identity if none exist
           const { data: newProfile, error: createError } = await supabase
-            .from('profiles')
+            .from('identities')
             .insert({
               user_id: user.id,
               name: 'Default Profile',
@@ -56,15 +56,15 @@ export function ProfileHeadlineForm({ value, onChange, onComplete, isCompleted }
           if (createError) throw createError;
           currentProfileId = newProfile.id;
         } else {
-          // Find active profile or set first one as active
-          const activeProfile = profilesData.find(p => p.is_active);
+          // Find active identity or set first one as active
+          const activeProfile = identitiesData.find(p => p.is_active);
           if (activeProfile) {
             currentProfileId = activeProfile.id;
           } else {
-            // Set first profile as active
-            const firstProfile = profilesData[0];
+            // Set first identity as active
+            const firstProfile = identitiesData[0];
             const { error: updateError } = await supabase
-              .from('profiles')
+              .from('identities')
               .update({ is_active: true })
               .eq('id', firstProfile.id);
 
@@ -75,11 +75,11 @@ export function ProfileHeadlineForm({ value, onChange, onComplete, isCompleted }
 
         setActiveProfileId(currentProfileId);
 
-        // Fetch headline for active profile
+        // Fetch headline for active identity
         const { data: headlineData, error: headlineError } = await supabase
-          .from('profile_headlines')
+          .from('identity_headlines')
           .select('headline')
-          .eq('profile_id', currentProfileId)
+          .eq('identity_id', currentProfileId)
           .maybeSingle();
 
         if (headlineError) throw headlineError;
@@ -88,7 +88,7 @@ export function ProfileHeadlineForm({ value, onChange, onComplete, isCompleted }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Failed to load profile data. Please try refreshing the page.');
+        setError('Failed to load identity data. Please try refreshing the page.');
       } finally {
         setIsLoading(false);
         setInitialFetchDone(true);
@@ -106,17 +106,17 @@ export function ProfileHeadlineForm({ value, onChange, onComplete, isCompleted }
 
     try {
       const { error: headlineError } = await supabase
-        .from('profile_headlines')
+        .from('identity_headlines')
         .upsert({
-          profile_id: activeProfileId,
+          identity_id: activeProfileId,
           headline: value.trim(),
           updated_at: new Date().toISOString()
         }, {
-          onConflict: 'profile_id'
+          onConflict: 'identity_id'
         });
 
       if (headlineError) throw headlineError;
-      await handleComplete('profile-headline', onComplete);
+      await handleComplete('identity-headline', onComplete);
     } catch (error) {
       console.error('Error saving headline:', error);
       setError('Failed to save headline. Please try again.');

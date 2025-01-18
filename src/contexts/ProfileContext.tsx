@@ -36,30 +36,30 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     try {
       setIsLoading(true);
 
-      // Get active profile with retry mechanism
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
+      // Get active identity with retry mechanism
+      const { data: identityData, error: identityError } = await supabase
+        .from('identities')
         .select('id')
         .eq('user_id', user.id)
         .eq('is_active', true)
         .single();
 
-      if (profileError) {
-        if (profileError.code === 'PGRST116') {
+      if (identityError) {
+        if (identityError.code === 'PGRST116') {
           setActiveProfileId(null);
           setCompletedPages(new Set());
           return;
         }
-        throw profileError;
+        throw identityError;
       }
 
-      setActiveProfileId(profileData.id);
+      setActiveProfileId(identityData.id);
 
       // Get completed pages with retry mechanism
       const { data, error } = await supabase
         .from('page_completion')
         .select('page_id')
-        .eq('profile_id', profileData.id)
+        .eq('identity_id', identityData.id)
         .eq('is_completed', true);
 
       if (error) throw error;
@@ -69,7 +69,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       setRetryCount(0); // Reset retry count on success
 
       // Update progress and match quality
-      const totalPages = 7; // Total number of profile pages
+      const totalPages = 7; // Total number of identity pages
       const completedCount = completedPageIds.size;
       setProgress((completedCount / totalPages) * 100);
       setMatchQuality(Math.min(completedCount * 15, 100));
@@ -91,7 +91,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user]);
 
-  // Watch for profile changes
+  // Watch for identity changes
   useEffect(() => {
     if (!user) {
       setActiveProfileId(null);
@@ -103,13 +103,13 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     }
 
     const channel = supabase
-      .channel('profile-changes')
+      .channel('identity-changes')
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
-          table: 'profiles',
+          table: 'identities',
           filter: `user_id=eq.${user.id}`,
         },
         () => {
@@ -132,13 +132,13 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       const { error } = await supabase
         .from('page_completion')
         .upsert({
-          profile_id: activeProfileId,
+          identity_id: activeProfileId,
           page_id: pageId,
           is_completed: true,
           completed_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }, {
-          onConflict: 'profile_id,page_id'
+          onConflict: 'identity_id,page_id'
         });
 
       if (error) throw error;

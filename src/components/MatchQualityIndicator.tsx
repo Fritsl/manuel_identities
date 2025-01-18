@@ -96,7 +96,7 @@ export function MatchQualityIndicator({ matchQuality, remainingPages }: MatchQua
           disabled={animatedValue < 60}
         >
           {animatedValue < 60
-            ? 'Complete at least 60% of your profile for magic'
+            ? 'Complete at least 60% of your identity for magic'
             : 'Find Matching Jobs'}
         </button>
       </div>

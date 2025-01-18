@@ -3,7 +3,7 @@ export interface FormPage {
   title: string;
   description: string;
   isCompleted: boolean;
-  category: 'profile' | 'experience' | 'skills' | 'preferences';
+  category: 'identity' | 'experience' | 'skills' | 'preferences';
   matchImpact: number;
 }
 
@@ -15,7 +15,7 @@ export interface FormState {
 }
 
 export interface FormData {
-  'profile-headline': string;
+  'identity-headline': string;
   environment: {
     workplaceSocialization: number;
     workPaceStructure: number;

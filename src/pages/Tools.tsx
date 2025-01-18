@@ -15,13 +15,13 @@ interface Tool {
 const tools: Tool[] = [
   {
     name: 'Cover Letter Generator',
-    description: 'Create personalized cover letters and profile introductions based on your preferences.',
+    description: 'Create personalized cover letters and identity introductions based on your preferences.',
     icon: <FileText className="w-8 h-8 text-primary" />,
     component: <CoverLetterGenerator />
   },
   {
     name: 'LinkedIn Post Generator',
-    description: 'Create engaging LinkedIn posts based on your profile and industry trends.',
+    description: 'Create engaging LinkedIn posts based on your identity and industry trends.',
     icon: <Linkedin className="w-8 h-8 text-primary" />,
     component: <LinkedInPostGenerator />
   }

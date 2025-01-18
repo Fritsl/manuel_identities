@@ -9,7 +9,7 @@ export interface Profile {
   isActive: boolean;
 }
 
-export const mockProfiles: Profile[] = [
+export const mockIdentities: Profile[] = [
   {
     id: '1',
     name: 'San Francisco Tech',

@@ -32,13 +32,13 @@ export function TopMenuMobileContent({
         <div className="pt-2 mt-2 border-t border-border">
           <button
             onClick={() => {
-              onNavigate('/profiles');
+              onNavigate('/identities');
               setIsMobileMenuOpen(false);
             }}
             className="w-full px-3 py-2 text-left flex items-center gap-2 text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-md"
           >
             <Users className="w-4 h-4 flex-shrink-0" />
-            <span className="text-sm">Profiles</span>
+            <span className="text-sm">Identities</span>
           </button>
           <button
             onClick={() => {

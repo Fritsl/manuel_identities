@@ -10,11 +10,11 @@ import { ProfileFormContent } from '../components/forms/ProfileFormContent';
 
 const initialPages: FormPage[] = [
   {
-    id: 'profile-headline',
+    id: 'identity-headline',
     title: 'Profile headline',
     description: 'Create a compelling headline that represents you',
     isCompleted: false,
-    category: 'profile',
+    category: 'identity',
     matchImpact: 15,
   },
   {
@@ -46,7 +46,7 @@ const initialPages: FormPage[] = [
     title: 'Personal interests',
     description: 'What drives and motivates you',
     isCompleted: false,
-    category: 'profile',
+    category: 'identity',
     matchImpact: 10,
   },
   {
@@ -54,7 +54,7 @@ const initialPages: FormPage[] = [
     title: 'Life goals',
     description: 'Your long-term aspirations and dreams',
     isCompleted: false,
-    category: 'profile',
+    category: 'identity',
     matchImpact: 15,
   },
   {
@@ -68,7 +68,7 @@ const initialPages: FormPage[] = [
 ];
 
 const initialFormData: FormData = {
-  'profile-headline': '',
+  'identity-headline': '',
   'environment': {
     workplaceSocialization: 3,
     workPaceStructure: 3,
@@ -200,7 +200,7 @@ export function ProfileForm() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <RefreshCw className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-muted">Loading your profile...</p>
+          <p className="text-muted">Loading your identity...</p>
         </div>
       </div>
     );

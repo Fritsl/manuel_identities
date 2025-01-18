@@ -133,7 +133,7 @@ What really draws me to your company is how you're pushing the boundaries of wha
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-foreground">Cover Letter & Profile Generator</h2>
           <p className="text-muted">
-            Generate a personalized cover letter or profile introduction based on your preferences.
+            Generate a personalized cover letter or identity introduction based on your preferences.
           </p>
         </div>
 

@@ -9,7 +9,7 @@ import { Tools } from './pages/Tools';
 import { HowItWorks } from './pages/HowItWorks';
 import { Privacy } from './pages/Privacy';
 import { About } from './pages/About';
-import { Profiles } from './pages/Profiles';
+import { Identities } from './pages/Identities';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { ProfileProvider } from './contexts/ProfileContext';
@@ -53,9 +53,9 @@ function App() {
                     <Tools />
                   </ProtectedRoute>
                 } />
-                <Route path="/profiles" element={
+                <Route path="/identities" element={
                   <ProtectedRoute>
-                    <Profiles />
+                    <Identities />
                   </ProtectedRoute>
                 } />
 

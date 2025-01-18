@@ -21,7 +21,7 @@ export function JobSearchResults({ jobs }: JobSearchResultsProps) {
   return (
     <SearchResults
       title="Job Matches"
-      subtitle="Found matches based on your profile:"
+      subtitle="Found matches based on your identity:"
       results={jobs}
       renderItem={(job) => <JobCard key={job.id} job={job} />}
       onFilter={handleFilter}

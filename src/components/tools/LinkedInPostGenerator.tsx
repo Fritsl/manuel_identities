@@ -77,7 +77,7 @@ Check out the case study: [link]
         <div className="space-y-2">
           <h2 className="text-xl font-semibold text-foreground">LinkedIn Post Generator</h2>
           <p className="text-muted">
-            Generate engaging LinkedIn posts based on your profile and current industry trends.
+            Generate engaging LinkedIn posts based on your identity and current industry trends.
           </p>
         </div>
 

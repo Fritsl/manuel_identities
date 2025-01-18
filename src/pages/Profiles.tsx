@@ -11,16 +11,16 @@ const supabase = createClient(
 
 interface Profile {
   id: string;
-  profile_number: number;
+  identity_number: number;
   is_active: boolean;
   created_at: string;
   updated_at: string;
 }
 
-export function Profiles() {
+export function Identities() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [identities, setIdentities] = useState<Profile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
@@ -28,39 +28,39 @@ export function Profiles() {
   const [headlines, setHeadlines] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    fetchProfiles();
+    fetchIdentities();
   }, [user]);
 
-  const fetchProfiles = async () => {
+  const fetchIdentities = async () => {
     if (!user) return;
 
     try {
-      // Fetch profiles
-      const { data: profilesData, error: profilesError } = await supabase
-        .from('profiles')
+      // Fetch identities
+      const { data: identitiesData, error: identitiesError } = await supabase
+        .from('identities')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (profilesError) throw profilesError;
+      if (identitiesError) throw identitiesError;
 
-      // Fetch headlines for all profiles
+      // Fetch headlines for all identities
       const { data: headlinesData, error: headlinesError } = await supabase
-        .from('profile_headlines')
-        .select('profile_id, headline');
+        .from('identity_headlines')
+        .select('identity_id, headline');
 
       if (headlinesError) throw headlinesError;
 
       // Create headlines lookup object
       const headlinesLookup = headlinesData?.reduce((acc, curr) => ({
         ...acc,
-        [curr.profile_id]: curr.headline
+        [curr.identity_id]: curr.headline
       }), {});
 
-      setProfiles(profilesData || []);
+      setIdentities(identitiesData || []);
       setHeadlines(headlinesLookup || {});
     } catch (error) {
-      console.error('Error fetching profiles:', error);
-      setError('Failed to load profiles. Please try again.');
+      console.error('Error fetching identities:', error);
+      setError('Failed to load identities. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -72,33 +72,33 @@ export function Profiles() {
     setIsProcessing(true);
     try {
       const { data, error } = await supabase
-        .from('profiles')
+        .from('identities')
         .insert({
           user_id: user.id,
-          is_active: profiles.length === 0 // Make active if it's the first profile
+          is_active: identities.length === 0 // Make active if it's the first identity
         })
         .select()
         .single();
 
       if (error) throw error;
       
-      setProfiles(prev => [data, ...prev]);
+      setIdentities(prev => [data, ...prev]);
       navigate('/');
     } catch (error) {
-      console.error('Error creating profile:', error);
-      setError('Failed to create profile. Please try again.');
+      console.error('Error creating identity:', error);
+      setError('Failed to create identity. Please try again.');
     } finally {
       setIsProcessing(false);
     }
   };
 
-  const handleDuplicate = async (profile: Profile) => {
+  const handleDuplicate = async (identity: Profile) => {
     if (!user || isProcessing) return;
 
     setIsProcessing(true);
     try {
       const { data, error } = await supabase
-        .from('profiles')
+        .from('identities')
         .insert({
           user_id: user.id,
           is_active: false
@@ -109,25 +109,25 @@ export function Profiles() {
       if (error) throw error;
 
       // Copy headline if exists
-      if (headlines[profile.id]) {
+      if (headlines[identity.id]) {
         const { error: headlineError } = await supabase
-          .from('profile_headlines')
+          .from('identity_headlines')
           .insert({
-            profile_id: data.id,
-            headline: headlines[profile.id]
+            identity_id: data.id,
+            headline: headlines[identity.id]
           });
 
         if (headlineError) throw headlineError;
       }
 
-      setProfiles(prev => [data, ...prev]);
+      setIdentities(prev => [data, ...prev]);
       setHeadlines(prev => ({
         ...prev,
-        [data.id]: headlines[profile.id]
+        [data.id]: headlines[identity.id]
       }));
     } catch (error) {
-      console.error('Error duplicating profile:', error);
-      setError('Failed to duplicate profile. Please try again.');
+      console.error('Error duplicating identity:', error);
+      setError('Failed to duplicate identity. Please try again.');
     } finally {
       setIsProcessing(false);
     }
@@ -139,16 +139,16 @@ export function Profiles() {
     setIsProcessing(true);
     try {
       const { error } = await supabase
-        .from('profiles')
+        .from('identities')
         .delete()
         .eq('id', id);
 
       if (error) throw error;
-      setProfiles(profiles.filter(p => p.id !== id));
+      setIdentities(identities.filter(p => p.id !== id));
       setShowDeleteConfirm(null);
     } catch (error) {
-      console.error('Error deleting profile:', error);
-      setError('Failed to delete profile. Please try again.');
+      console.error('Error deleting identity:', error);
+      setError('Failed to delete identity. Please try again.');
     } finally {
       setIsProcessing(false);
     }
@@ -159,42 +159,42 @@ export function Profiles() {
 
     setIsProcessing(true);
     try {
-      // First, deactivate all profiles
+      // First, deactivate all identities
       await supabase
-        .from('profiles')
+        .from('identities')
         .update({ is_active: false })
         .eq('user_id', user.id);
 
-      // Then activate the selected profile
+      // Then activate the selected identity
       const { error } = await supabase
-        .from('profiles')
+        .from('identities')
         .update({ is_active: true })
         .eq('id', id);
 
       if (error) throw error;
 
-      setProfiles(profiles.map(p => ({
+      setIdentities(identities.map(p => ({
         ...p,
         is_active: p.id === id
       })));
     } catch (error) {
-      console.error('Error setting active profile:', error);
-      setError('Failed to set active profile. Please try again.');
+      console.error('Error setting active identity:', error);
+      setError('Failed to set active identity. Please try again.');
     } finally {
       setIsProcessing(false);
     }
   };
 
-  const handleEdit = async (profile: Profile) => {
+  const handleEdit = async (identity: Profile) => {
     if (!user || isProcessing) return;
 
-    if (!profile.is_active) {
+    if (!identity.is_active) {
       setIsProcessing(true);
       try {
-        await handleSetActive(profile.id);
+        await handleSetActive(identity.id);
       } catch (error) {
-        console.error('Error setting profile active:', error);
-        setError('Failed to set profile active. Please try again.');
+        console.error('Error setting identity active:', error);
+        setError('Failed to set identity active. Please try again.');
         return;
       } finally {
         setIsProcessing(false);
@@ -209,7 +209,7 @@ export function Profiles() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          <p className="text-muted">Loading profiles...</p>
+          <p className="text-muted">Loading identities...</p>
         </div>
       </div>
     );
@@ -221,9 +221,9 @@ export function Profiles() {
         <div className="space-y-6">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Your Profiles</h1>
+              <h1 className="text-2xl font-bold text-foreground">Your Identities</h1>
               <p className="text-muted mt-1">
-                Create and manage different profiles for various job searches
+                Create and manage different identities for various job searches
               </p>
             </div>
             <button
@@ -246,26 +246,26 @@ export function Profiles() {
             </div>
           )}
 
-          {profiles.length === 0 ? (
+          {identities.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted">No profiles yet. Create your first profile to get started!</p>
+              <p className="text-muted">No identities yet. Create your first identity to get started!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {profiles.map(profile => (
+              {identities.map(identity => (
                 <div
-                  key={profile.id}
+                  key={identity.id}
                   className={`bg-card rounded-lg border ${
-                    profile.is_active ? 'border-primary' : 'border-border'
+                    identity.is_active ? 'border-primary' : 'border-border'
                   } p-6 space-y-4`}
                 >
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
                       <h3 className="font-semibold text-foreground">
-                        {headlines[profile.id] || 'No headline set'}
+                        {headlines[identity.id] || 'No headline set'}
                       </h3>
                     </div>
-                    {profile.is_active && (
+                    {identity.is_active && (
                       <span className="flex items-center gap-1 text-xs font-medium text-primary">
                         <CheckCircle2 className="w-4 h-4" />
                         Active
@@ -276,41 +276,41 @@ export function Profiles() {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-muted">
                       <Clock className="w-4 h-4" />
-                      Updated {new Date(profile.updated_at).toLocaleDateString()}
+                      Updated {new Date(identity.updated_at).toLocaleDateString()}
                     </div>
                   </div>
 
                   <div className="pt-4 flex items-center justify-between border-t border-border">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => handleEdit(profile)}
+                        onClick={() => handleEdit(identity)}
                         disabled={isProcessing}
                         className="p-2 text-muted hover:text-primary hover:bg-primary/5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="Edit profile"
+                        title="Edit identity"
                       >
                         <Pencil className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleDuplicate(profile)}
+                        onClick={() => handleDuplicate(identity)}
                         disabled={isProcessing}
                         className="p-2 text-muted hover:text-primary hover:bg-primary/5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="Duplicate profile"
+                        title="Duplicate identity"
                       >
                         <Copy className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => setShowDeleteConfirm(profile.id)}
+                        onClick={() => setShowDeleteConfirm(identity.id)}
                         disabled={isProcessing}
                         className="p-2 text-muted hover:text-destructive hover:bg-destructive/5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="Delete profile"
+                        title="Delete identity"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
 
-                    {!profile.is_active && (
+                    {!identity.is_active && (
                       <button
-                        onClick={() => handleSetActive(profile.id)}
+                        onClick={() => handleSetActive(identity.id)}
                         disabled={isProcessing}
                         className="text-sm text-primary hover:text-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
@@ -319,12 +319,12 @@ export function Profiles() {
                     )}
                   </div>
 
-                  {showDeleteConfirm === profile.id && (
+                  {showDeleteConfirm === identity.id && (
                     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50">
                       <div className="bg-card p-6 rounded-lg border border-border shadow-lg max-w-sm w-full mx-4">
                         <h4 className="text-lg font-semibold text-foreground">Delete Profile?</h4>
                         <p className="text-muted mt-2">
-                          Are you sure you want to delete this profile? This action cannot be undone.
+                          Are you sure you want to delete this identity? This action cannot be undone.
                         </p>
                         <div className="flex justify-end gap-3 mt-6">
                           <button
@@ -335,7 +335,7 @@ export function Profiles() {
                             Cancel
                           </button>
                           <button
-                            onClick={() => handleDelete(profile.id)}
+                            onClick={() => handleDelete(identity.id)}
                             disabled={isProcessing}
                             className="px-4 py-2 text-sm font-medium text-destructive-foreground bg-destructive rounded-lg hover:bg-destructive/90 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
