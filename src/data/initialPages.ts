@@ -2,11 +2,11 @@ import { FormPage } from '../types';
 
 export const initialPages: FormPage[] = [
   {
-    id: 'identity-headline',
+    id: 'profile-headline',
     title: 'Profile headline',
     description: 'Create a compelling headline that represents you',
     isCompleted: false,
-    category: 'identity',
+    category: 'profile',
     matchImpact: 15,
   },
   {
@@ -38,7 +38,7 @@ export const initialPages: FormPage[] = [
     title: 'Personal interests',
     description: 'What drives and motivates you',
     isCompleted: false,
-    category: 'identity',
+    category: 'profile',
     matchImpact: 10,
   },
   {
@@ -46,7 +46,7 @@ export const initialPages: FormPage[] = [
     title: 'Life goals',
     description: 'Your long-term aspirations and dreams',
     isCompleted: false,
-    category: 'identity',
+    category: 'profile',
     matchImpact: 15,
   },
   {

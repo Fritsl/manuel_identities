@@ -24,11 +24,11 @@ export function ProfileFormContent({
   isCompleted
 }: ProfileFormContentProps) {
   switch (currentPageId) {
-    case 'identity-headline':
+    case 'profile-headline':
       return (
         <ProfileHeadlineForm
-          value={formData['identity-headline']}
-          onChange={(value) => setFormData({ ...formData, 'identity-headline': value })}
+          value={formData['profile-headline']}
+          onChange={(value) => setFormData({ ...formData, 'profile-headline': value })}
           onComplete={() => handlePageComplete(currentPageId)}
           isCompleted={isCompleted}
         />

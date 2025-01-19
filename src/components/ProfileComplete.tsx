@@ -65,7 +65,7 @@ export function ProfileComplete() {
             Congratulations! 🎉
           </h1>
           <p className="text-xl text-muted">
-            Your identity is now complete and you've unlocked all features
+            Your profile is now complete and you've unlocked all features
           </p>
         </div>
 
@@ -100,7 +100,7 @@ export function ProfileComplete() {
         {/* Update Notice */}
         <div className="pt-8">
           <p className="text-muted">
-            You can always return to your identity to make updates or changes
+            You can always return to your profile to make updates or changes
           </p>
           <button
             onClick={() => navigate('/')}

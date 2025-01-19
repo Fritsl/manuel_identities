@@ -4,7 +4,7 @@ import { initialPages } from '../data/initialPages';
 
 export function useProfileFormState(completedPages: Set<string>, setProgress: (progress: number) => void, setMatchQuality: (quality: number) => void) {
   const [formData, setFormData] = useState<FormData>({
-    'identity-headline': '',
+    'profile-headline': '',
     'environment': {
       workplaceSocialization: 3,
       workPaceStructure: 3,

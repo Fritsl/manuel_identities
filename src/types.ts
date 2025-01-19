@@ -3,7 +3,7 @@ export interface FormPage {
   title: string;
   description: string;
   isCompleted: boolean;
-  category: 'identity' | 'experience' | 'skills' | 'preferences';
+  category: 'profile' | 'experience' | 'skills' | 'preferences';
   matchImpact: number;
 }
 

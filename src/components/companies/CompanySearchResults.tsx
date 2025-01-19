@@ -21,7 +21,7 @@ export function CompanySearchResults({ companies }: CompanySearchResultsProps) {
   return (
     <SearchResults
       title="Company Matches"
-      subtitle="Found companies that match your identity:"
+      subtitle="Found companies that match your profile:"
       results={companies}
       renderItem={(company) => <CompanyCard key={company.id} company={company} />}
       onFilter={handleFilter}

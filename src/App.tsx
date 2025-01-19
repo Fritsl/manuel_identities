@@ -4,22 +4,22 @@ import { TopMenu } from './components/layout/TopMenu';
 import { Footer } from './components/layout/Footer';
 import { JobSearch } from './pages/JobSearch';
 import { CompanySearch } from './pages/CompanySearch';
-import { identityForm } from './pages/identityForm';
+import { ProfileForm } from './pages/ProfileForm';
 import { Tools } from './pages/Tools';
 import { HowItWorks } from './pages/HowItWorks';
 import { Privacy } from './pages/Privacy';
 import { About } from './pages/About';
-import { Identities } from './pages/Identities';
+import { Profiles } from './pages/Profiles';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
-import { identityProvider } from './contexts/identityContext';
+import { ProfileProvider } from './contexts/ProfileContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 function App() {
   return (
     <AuthProvider>
-      <identityProvider>
+      <ProfileProvider>
         <Router>
           <div className="min-h-screen bg-background flex flex-col">
             <TopMenu />
@@ -35,7 +35,7 @@ function App() {
                 {/* Protected Routes */}
                 <Route path="/" element={
                   <ProtectedRoute>
-                    <identityForm />
+                    <ProfileForm />
                   </ProtectedRoute>
                 } />
                 <Route path="/jobs" element={
@@ -53,9 +53,9 @@ function App() {
                     <Tools />
                   </ProtectedRoute>
                 } />
-                <Route path="/identities" element={
+                <Route path="/profiles" element={
                   <ProtectedRoute>
-                    <Identities />
+                    <Profiles />
                   </ProtectedRoute>
                 } />
 
@@ -66,7 +66,7 @@ function App() {
             <Footer />
           </div>
         </Router>
-      </identityProvider>
+      </ProfileProvider>
     </AuthProvider>
   );
 }

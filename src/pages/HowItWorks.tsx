@@ -5,12 +5,12 @@ const steps = [
   {
     icon: Sparkles,
     title: 'Create Your Profile',
-    description: 'Fill out your identity with your experience, preferences, and career goals. Our AI analyzes your inputs to understand your unique needs.'
+    description: 'Fill out your profile with your experience, preferences, and career goals. Our AI analyzes your inputs to understand your unique needs.'
   },
   {
     icon: Target,
     title: 'Get Matched',
-    description: 'Our advanced matching algorithm finds the best jobs and companies that align with your identity, skills, and career aspirations.'
+    description: 'Our advanced matching algorithm finds the best jobs and companies that align with your profile, skills, and career aspirations.'
   },
   {
     icon: Briefcase,
